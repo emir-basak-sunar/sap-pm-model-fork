@@ -1,0 +1,31 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: sap-pm-bert-pipeline
+  annotations:
+    scenarios.ai.sap.com/description: "SAP PM BERT Model API"
+    scenarios.ai.sap.com/name: "sap-pm-scenario"
+    executables.ai.sap.com/description: "Inference executable"
+    executables.ai.sap.com/name: "sap-pm-infer"
+  labels:
+    scenarios.ai.sap.com/id: "sap-pm-scenario"
+    ai.sap.com/version: "1.0.0"
+spec:
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+      labels: |
+        ai.sap.com/resourcePlan: starter
+    spec: |
+      predictor:
+        imagePullSecrets:
+        - name: docker-registry-secret
+        containers:
+        - name: kserve-container
+          image: <DOCKER_HUB_KULLANICI_ADIN>/sap-pm-model:latest
+          ports:
+          - containerPort: 9000
+            protocol: TCP
