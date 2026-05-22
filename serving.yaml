@@ -18,7 +18,7 @@ spec:
         autoscaling.knative.dev/metric: concurrency
         autoscaling.knative.dev/target: 1
       labels: |
-        ai.sap.com/resourcePlan: starter
+        ai.sap.com/resourcePlan: basic
     spec: |
       predictor:
         imagePullSecrets:
