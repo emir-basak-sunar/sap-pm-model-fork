@@ -21,11 +21,11 @@ spec:
         ai.sap.com/resourcePlan: basic
     spec: |
       predictor:
-        imagePullSecrets:
-        - name: docker-registry-secret
+        # imagePullSecrets bloğu silindi
         containers:
         - name: kserve-container
-          image: ahmettahaakturk25/sap-pm-model:v1.1.0  # <--- 'latest' yerine versiyon kullan
+          image: docker.io/ahmettahaakturk25/sap-pm-model:latest
+          imagePullPolicy: Always
           ports:
           - containerPort: 9000
             protocol: TCP
