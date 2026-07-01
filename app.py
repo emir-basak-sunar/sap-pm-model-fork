@@ -66,7 +66,7 @@ HTML_TEMPLATE = '''
     <script>
         async function tahminEt() {
             const text = document.getElementById('textInput').value;
-            const response = await fetch('/predict', {
+            const response = await fetch('/v2/predict', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: text })
@@ -85,7 +85,13 @@ HTML_TEMPLATE = '''
 def index():
     return render_template_string(HTML_TEMPLATE)
 
-@app.route('/predict', methods=['POST'])
+@app.route('/health', methods=['GET'])
+@app.route('/v1/health/live', methods=['GET'])
+@app.route('/v1/health/ready', methods=['GET'])
+def health():
+    return jsonify({"status": "ok"}), 200
+
+@app.route('/v2/predict', methods=['POST'])
 def predict():
     data = request.get_json(force=True)
     text = str(data.get("text", ""))
